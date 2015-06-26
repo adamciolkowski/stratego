@@ -35,4 +35,31 @@ public class PositionTest {
 
         assertThat(right).isEqualTo(Position.of(3, 2));
     }
+
+    @Test
+    public void shouldBeWithinBounds() {
+        Position position = Position.of(3, 3);
+
+        boolean withinBounds = position.isWithinBounds(1, 3);
+
+        assertThat(withinBounds).isTrue();
+    }
+
+    @Test
+    public void shouldBeOutsideBoundsWhenCoordinateTooBig() {
+        Position position = Position.of(3, 4);
+
+        boolean withinBounds = position.isWithinBounds(1, 3);
+
+        assertThat(withinBounds).isFalse();
+    }
+
+    @Test
+    public void shouldBeOutsideBoundsWhenCoordinateTooSmall() {
+        Position position = Position.of(0, 3);
+
+        boolean withinBounds = position.isWithinBounds(1, 3);
+
+        assertThat(withinBounds).isFalse();
+    }
 }

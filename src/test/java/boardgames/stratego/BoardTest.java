@@ -33,13 +33,32 @@ public class BoardTest {
     }
 
     @Test
-    public void pieceCanMoveOneSquareHorizontallyOrVertically() {
+    public void possibleMovesFromPositionArePossibleMovesForPieceOccupyingThatPosition() {
         Piece piece = mock(Piece.class);
         Position position = Position.of(4, 4);
         board.placePieceAt(position, piece);
 
         board.getPossibleMovesFrom(position);
 
-        verify(piece).getPossibleMovesFrom(position);
+        verify(piece).getPossibleMovesFrom(position, board);
+    }
+
+    @Test
+    public void positionOutsideBoardIsNotValid() {
+        assertThat(board.isValid(Position.of(5, 0))).isFalse();
+        assertThat(board.isValid(Position.of(5, 11))).isFalse();
+    }
+
+    @Test
+    public void twoZonesInTheMiddleOfBoardCannotBeEntered() {
+        assertThat(board.isValid(Position.of(3, 5))).isFalse();
+        assertThat(board.isValid(Position.of(3, 6))).isFalse();
+        assertThat(board.isValid(Position.of(4, 5))).isFalse();
+        assertThat(board.isValid(Position.of(4, 6))).isFalse();
+
+        assertThat(board.isValid(Position.of(7, 5))).isFalse();
+        assertThat(board.isValid(Position.of(7, 6))).isFalse();
+        assertThat(board.isValid(Position.of(8, 5))).isFalse();
+        assertThat(board.isValid(Position.of(8, 6))).isFalse();
     }
 }

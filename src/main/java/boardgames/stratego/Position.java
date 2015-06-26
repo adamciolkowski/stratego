@@ -38,6 +38,14 @@ public class Position {
         return Position.of(x + 1, y);
     }
 
+    public boolean isWithinBounds(int lower, int upper) {
+        return isWithinBounds(x, lower, upper) && isWithinBounds(y, lower, upper);
+    }
+
+    private boolean isWithinBounds(int val, int lower, int upper) {
+        return val >= lower && val <= upper;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
