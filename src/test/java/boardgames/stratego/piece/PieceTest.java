@@ -1,5 +1,7 @@
-package boardgames.stratego;
+package boardgames.stratego.piece;
 
+import boardgames.stratego.Board;
+import boardgames.stratego.Position;
 import org.junit.Test;
 
 import java.util.Set;
@@ -13,7 +15,7 @@ public class PieceTest {
 
     Board board = mock(Board.class);
 
-    Piece piece = new Piece(Color.BLUE);
+    Piece piece = new Sergeant(Color.BLUE);
 
     @Test
     public void pieceCanMoveOneSquareHorizontallyOrVertically() {
@@ -42,8 +44,8 @@ public class PieceTest {
     @Test
     public void pieceCanMoveToSquareOccupiedByPieceOfDifferentColor() {
         when(board.isValid(any())).thenReturn(true);
-        when(board.getPieceAt(Position.of(2, 2))).thenReturn(new Piece(Color.BLUE));
-        when(board.getPieceAt(Position.of(2, 3))).thenReturn(new Piece(Color.RED));
+        when(board.getPieceAt(Position.of(2, 2))).thenReturn(new Sergeant(Color.BLUE));
+        when(board.getPieceAt(Position.of(2, 3))).thenReturn(new Sergeant(Color.RED));
 
         Set<Position> possibleMoves = piece.getPossibleMovesFrom(Position.of(2, 2), board);
 
@@ -54,11 +56,41 @@ public class PieceTest {
     @Test
     public void pieceCannotMoveToSquareOccupiedByPieceOfTheSameColor() {
         when(board.isValid(any())).thenReturn(true);
-        when(board.getPieceAt(Position.of(2, 2))).thenReturn(new Piece(Color.BLUE));
-        when(board.getPieceAt(Position.of(2, 3))).thenReturn(new Piece(Color.BLUE));
+        when(board.getPieceAt(Position.of(2, 2))).thenReturn(new Sergeant(Color.BLUE));
+        when(board.getPieceAt(Position.of(2, 3))).thenReturn(new Sergeant(Color.BLUE));
 
         Set<Position> possibleMoves = piece.getPossibleMovesFrom(Position.of(2, 2), board);
 
         assertThat(possibleMoves).containsOnly(Position.of(1, 2), Position.of(3, 2), Position.of(2, 1));
+    }
+
+    @Test
+    public void pieceWithHigherRankDefeatsPieceWithLowerRank() {
+        General general = new General(Color.BLUE);
+        Scout scout = new Scout(Color.RED);
+
+        EngagementOutcome outcome = general.attack(scout);
+
+        assertThat(outcome).isEqualTo(EngagementOutcome.ATTACKER_WINS);
+    }
+
+    @Test
+    public void pieceWithLowerRankLosesToPieceWithHigherRank() {
+        General general = new General(Color.BLUE);
+        Scout scout = new Scout(Color.RED);
+
+        EngagementOutcome outcome = scout.attack(general);
+
+        assertThat(outcome).isEqualTo(EngagementOutcome.ATTACKER_LOSES);
+    }
+
+    @Test
+    public void whenPieceAttacksAnotherPieceWithTheSameRankBothLose() {
+        Scout blueScout = new Scout(Color.BLUE);
+        Scout redScout = new Scout(Color.RED);
+
+        EngagementOutcome outcome = redScout.attack(blueScout);
+
+        assertThat(outcome).isEqualTo(EngagementOutcome.BOTH_DIE);
     }
 }

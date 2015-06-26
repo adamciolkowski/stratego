@@ -1,5 +1,7 @@
 package boardgames.stratego;
 
+import boardgames.stratego.piece.Piece;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -48,5 +50,30 @@ public class Board {
 
     public int getSize() {
         return STANDARD_SIZE;
+    }
+
+    public void movePiece(Position origin, Position goal) {
+        Piece piece = removePieceFrom(origin);
+        Piece enemy = getPieceAt(goal);
+        if (enemy == null) {
+            placePieceAt(goal, piece);
+        } else {
+            fight(goal, piece, enemy);
+        }
+    }
+
+    private void fight(Position defenderPosition, Piece attacker, Piece defender) {
+        switch (attacker.attack(defender)) {
+            case ATTACKER_WINS:
+                placePieceAt(defenderPosition, attacker);
+                break;
+            case BOTH_DIE:
+                removePieceFrom(defenderPosition);
+                break;
+        }
+    }
+
+    private Piece removePieceFrom(Position position) {
+        return pieces.remove(position);
     }
 }
