@@ -25,11 +25,11 @@ public class BoardTest {
 
     @Test
     public void shouldReturnPieceThatWasPreviouslyPlacedAtGivenPosition() {
-        board.placePieceAt(Position.of(2, 2), new Piece());
+        board.placePieceAt(Position.of(2, 2), new Piece(Color.BLUE));
 
         Piece piece = board.getPieceAt(Position.of(2, 2));
 
-        assertThat(piece).isEqualTo(new Piece());
+        assertThat(piece).isEqualTo(new Piece(Color.BLUE));
     }
 
     @Test

@@ -41,7 +41,7 @@ public class Board {
     }
 
     public boolean isValid(Position position) {
-        if(illegalPositions.contains(position))
+        if (illegalPositions.contains(position))
             return false;
         return position.isWithinBounds(1, getSize());
     }
