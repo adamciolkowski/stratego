@@ -1,7 +1,9 @@
-package boardgames.stratego.piece;
+package boardgames.stratego.piece.ranked;
 
 import boardgames.stratego.Board;
 import boardgames.stratego.Position;
+import boardgames.stratego.piece.Color;
+import boardgames.stratego.piece.Flag;
 import org.junit.Test;
 
 import java.util.Set;
@@ -11,11 +13,11 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class PieceTest {
+public class RankedPieceTest {
 
     Board board = mock(Board.class);
 
-    Piece piece = new Sergeant(Color.BLUE);
+    RankedPiece piece = new Sergeant(Color.BLUE);
 
     @Test
     public void pieceCanMoveOneSquareHorizontallyOrVertically() {
@@ -92,5 +94,15 @@ public class PieceTest {
         EngagementOutcome outcome = redScout.attack(blueScout);
 
         assertThat(outcome).isEqualTo(EngagementOutcome.BOTH_DIE);
+    }
+
+    @Test
+    public void anyPieceCanCaptureFlag() {
+        Spy spy = new Spy(Color.BLUE);
+        Flag flag = new Flag(Color.RED);
+
+        EngagementOutcome outcome = spy.attack(flag);
+
+        assertThat(outcome).isEqualTo(EngagementOutcome.ATTACKER_WINS);
     }
 }

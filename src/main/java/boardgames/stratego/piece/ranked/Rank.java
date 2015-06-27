@@ -1,4 +1,4 @@
-package boardgames.stratego.piece;
+package boardgames.stratego.piece.ranked;
 
 public enum Rank {
     SPY(1),

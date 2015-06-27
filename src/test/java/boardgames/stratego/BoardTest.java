@@ -1,6 +1,11 @@
 package boardgames.stratego;
 
-import boardgames.stratego.piece.*;
+import boardgames.stratego.piece.Color;
+import boardgames.stratego.piece.Piece;
+import boardgames.stratego.piece.ranked.General;
+import boardgames.stratego.piece.ranked.RankedPiece;
+import boardgames.stratego.piece.ranked.Scout;
+import boardgames.stratego.piece.ranked.Sergeant;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +40,7 @@ public class BoardTest {
 
     @Test
     public void possibleMovesFromPositionArePossibleMovesForPieceOccupyingThatPosition() {
-        Piece piece = mock(Piece.class);
+        RankedPiece piece = mock(RankedPiece.class);
         Position position = Position.of(4, 4);
         board.placePieceAt(position, piece);
 

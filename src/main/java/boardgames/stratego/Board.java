@@ -1,5 +1,6 @@
 package boardgames.stratego;
 
+import boardgames.stratego.piece.ranked.RankedPiece;
 import boardgames.stratego.piece.Piece;
 
 import java.util.HashMap;
@@ -39,7 +40,12 @@ public class Board {
     }
 
     public Set<Position> getPossibleMovesFrom(Position position) {
-        return getPieceAt(position).getPossibleMovesFrom(position, this);
+        Piece piece = getPieceAt(position);
+        if(piece instanceof RankedPiece) {
+            return ((RankedPiece) piece).getPossibleMovesFrom(position, this);
+        } else {
+            throw new UnsupportedOperationException();
+        }
     }
 
     public boolean isValid(Position position) {
@@ -54,15 +60,19 @@ public class Board {
 
     public void movePiece(Position origin, Position goal) {
         Piece piece = removePieceFrom(origin);
-        Piece enemy = getPieceAt(goal);
-        if (enemy == null) {
-            placePieceAt(goal, piece);
+        if (piece instanceof RankedPiece) {
+            Piece enemy = getPieceAt(goal);
+            if (enemy == null) {
+                placePieceAt(goal, piece);
+            } else {
+                fight(goal, (RankedPiece) piece, enemy);
+            }
         } else {
-            fight(goal, piece, enemy);
+            throw new UnsupportedOperationException();
         }
     }
 
-    private void fight(Position defenderPosition, Piece attacker, Piece defender) {
+    private void fight(Position defenderPosition, RankedPiece attacker, Piece defender) {
         switch (attacker.attack(defender)) {
             case ATTACKER_WINS:
                 placePieceAt(defenderPosition, attacker);

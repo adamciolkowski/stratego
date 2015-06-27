@@ -1,5 +1,6 @@
-package boardgames.stratego.piece;
+package boardgames.stratego.piece.ranked;
 
+import boardgames.stratego.piece.Color;
 import org.junit.Test;
 
 import static org.fest.assertions.api.Assertions.assertThat;
