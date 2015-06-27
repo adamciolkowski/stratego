@@ -1,5 +1,10 @@
 package boardgames.stratego;
 
+import java.util.Collection;
+import java.util.function.UnaryOperator;
+
+import static java.util.Arrays.asList;
+
 public class Position {
 
     private final int x;
@@ -36,6 +41,10 @@ public class Position {
 
     public Position right() {
         return Position.of(x + 1, y);
+    }
+
+    public static Collection<UnaryOperator<Position>> allDirections() {
+        return asList(Position::above, Position::below, Position::left, Position::right);
     }
 
     public boolean isWithinBounds(int lower, int upper) {
