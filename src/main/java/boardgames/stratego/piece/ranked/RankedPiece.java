@@ -2,6 +2,7 @@ package boardgames.stratego.piece.ranked;
 
 import boardgames.stratego.Board;
 import boardgames.stratego.Position;
+import boardgames.stratego.piece.Bomb;
 import boardgames.stratego.piece.Color;
 import boardgames.stratego.piece.Flag;
 import boardgames.stratego.piece.Piece;
@@ -40,6 +41,9 @@ public abstract class RankedPiece extends Piece {
     public EngagementOutcome attack(Piece piece) {
         if (piece instanceof Flag) {
             return EngagementOutcome.ATTACKER_WINS;
+        }
+        if (piece instanceof Bomb) {
+            return EngagementOutcome.ATTACKER_LOSES;
         }
         return attackRanked((RankedPiece) piece);
     }

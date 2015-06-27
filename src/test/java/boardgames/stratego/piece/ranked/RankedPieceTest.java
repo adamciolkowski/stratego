@@ -2,6 +2,7 @@ package boardgames.stratego.piece.ranked;
 
 import boardgames.stratego.Board;
 import boardgames.stratego.Position;
+import boardgames.stratego.piece.Bomb;
 import boardgames.stratego.piece.Color;
 import boardgames.stratego.piece.Flag;
 import org.junit.Test;
@@ -104,5 +105,15 @@ public class RankedPieceTest {
         EngagementOutcome outcome = spy.attack(flag);
 
         assertThat(outcome).isEqualTo(EngagementOutcome.ATTACKER_WINS);
+    }
+
+    @Test
+    public void anyPieceLosesWhenAttackingBomb() {
+        Marshall marshall = new Marshall(Color.BLUE);
+        Bomb bomb = new Bomb(Color.RED);
+
+        EngagementOutcome outcome = marshall.attack(bomb);
+
+        assertThat(outcome).isEqualTo(EngagementOutcome.ATTACKER_LOSES);
     }
 }
