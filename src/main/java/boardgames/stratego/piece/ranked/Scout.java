@@ -1,14 +1,15 @@
 package boardgames.stratego.piece.ranked;
 
 import boardgames.stratego.Board;
+import boardgames.stratego.Direction;
 import boardgames.stratego.Position;
 import boardgames.stratego.piece.Color;
 
 import java.util.Set;
-import java.util.function.UnaryOperator;
+import java.util.function.Predicate;
 
-import static boardgames.stratego.Position.allDirections;
 import static com.codepoetics.protonpack.StreamUtils.takeWhile;
+import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Stream.iterate;
 
@@ -20,13 +21,20 @@ public class Scout extends RankedPiece {
 
     @Override
     public Set<Position> getPossibleMovesFrom(Position position, Board board) {
-        return allDirections().stream()
+        return stream(Direction.values())
                 .flatMap(direction -> allMovesInDirection(direction, position, board).stream())
                 .collect(toSet());
     }
 
-    private Set<Position> allMovesInDirection(UnaryOperator<Position> direction, Position origin, Board board) {
-        return takeWhile(iterate(direction.apply(origin), direction), board::isValid).collect(toSet());
+    private Set<Position> allMovesInDirection(Direction direction, Position origin, Board board) {
+        return takeWhile(iterate(direction.next(origin), direction::next), canMove(board, direction))
+                .collect(toSet());
+    }
+
+    private Predicate<Position> canMove(Board board, Direction direction) {
+        return position -> board.isValid(position) &&
+                !board.isPresentPieceOfColor(position, color) &&
+                board.isEmpty(direction.previous(position));
     }
 
 }

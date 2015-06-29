@@ -1,5 +1,6 @@
 package boardgames.stratego;
 
+import boardgames.stratego.piece.Color;
 import boardgames.stratego.piece.ranked.RankedPiece;
 import boardgames.stratego.piece.Piece;
 
@@ -37,6 +38,10 @@ public class Board {
 
     public Piece getPieceAt(Position position) {
         return pieces.get(position);
+    }
+
+    public boolean isEmpty(Position position) {
+        return pieces.containsKey(position);
     }
 
     public Set<Position> getPossibleMovesFrom(Position position) {
@@ -85,5 +90,9 @@ public class Board {
 
     private Piece removePieceFrom(Position position) {
         return pieces.remove(position);
+    }
+
+    public boolean isPresentPieceOfColor(Position position, Color color) {
+        return !isEmpty(position) && getPieceAt(position).getColor() == color;
     }
 }

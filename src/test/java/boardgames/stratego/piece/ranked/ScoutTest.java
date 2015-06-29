@@ -23,6 +23,7 @@ public class ScoutTest {
 
     @Test
     public void scoutCanMoveAnyNumberOfSquaresHorizontallyOrVertically() {
+        when(board.isEmpty(any())).thenReturn(true);
         when(board.isValid(any())).thenAnswer(invocation -> {
             Position p = (Position) invocation.getArguments()[0];
             return p.isWithinBounds(1, 10);
@@ -56,5 +57,35 @@ public class ScoutTest {
                 moves.add(Position.of(i, origin.getY()));
         }
         return moves;
+    }
+
+    @Test
+    public void scoutCanMoveAndAttackInTheSameTurn() {
+        when(board.isEmpty(any())).then(i -> {
+            Position p = (Position) i.getArguments()[0];
+            return !p.equals(Position.of(5, 9));
+        });
+        when(board.isValid(any())).thenAnswer(i -> {
+            Position p = (Position) i.getArguments()[0];
+            return p.isWithinBounds(1, 10);
+        });
+
+        Set<Position> possibleMoves = scout.getPossibleMovesFrom(origin, board);
+
+        assertThat(possibleMoves).contains(Position.of(5, 9));
+        assertThat(possibleMoves).doesNotContain(Position.of(5, 10));
+    }
+
+    @Test
+    public void scoutCannotMovePastPiecesOfHisColor() {
+        when(board.isPresentPieceOfColor(Position.of(5, 9), Color.BLUE)).thenReturn(true);
+        when(board.isValid(any())).thenAnswer(invocation -> {
+            Position p = (Position) invocation.getArguments()[0];
+            return p.isWithinBounds(1, 10);
+        });
+
+        Set<Position> possibleMoves = scout.getPossibleMovesFrom(origin, board);
+
+        assertThat(possibleMoves).doesNotContain(Position.of(5, 9), Position.of(5, 10));
     }
 }
