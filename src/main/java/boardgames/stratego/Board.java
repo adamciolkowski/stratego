@@ -41,7 +41,7 @@ public class Board {
     }
 
     public boolean isEmpty(Position position) {
-        return pieces.containsKey(position);
+        return !pieces.containsKey(position);
     }
 
     public Set<Position> getPossibleMovesFrom(Position position) {

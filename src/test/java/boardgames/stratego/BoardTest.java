@@ -110,4 +110,16 @@ public class BoardTest {
         assertThat(board.getPieceAt(Position.of(2, 2))).isNull();
         assertThat(board.getPieceAt(Position.of(2, 3))).isNull();
     }
+
+    @Test
+    public void shouldNotBeEmptyWhenPieceIsPresent() {
+        board.placePieceAt(Position.of(2, 2), new Sergeant(Color.BLUE));
+
+        assertThat(board.isEmpty(Position.of(2, 2))).isFalse();
+    }
+
+    @Test
+    public void shouldBeEmptyWhenNoPiecePresent() {
+        assertThat(board.isEmpty(Position.of(2, 2))).isTrue();
+    }
 }
