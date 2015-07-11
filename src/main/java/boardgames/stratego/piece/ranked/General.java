@@ -8,5 +8,4 @@ public class General extends RankedPiece {
         super(color, Rank.GENERAL);
     }
 
-
 }

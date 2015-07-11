@@ -2,6 +2,8 @@ package boardgames.stratego.piece.ranked;
 
 import boardgames.stratego.piece.Color;
 
+import static boardgames.stratego.piece.ranked.EngagementOutcome.ATTACKER_WINS;
+
 public class Spy extends RankedPiece {
 
     public Spy(Color color) {
@@ -10,9 +12,8 @@ public class Spy extends RankedPiece {
 
     @Override
     public EngagementOutcome attackRanked(RankedPiece piece) {
-        if (piece.getRank() == Rank.MARSHALL) {
-            return EngagementOutcome.ATTACKER_WINS;
-        }
+        if (piece instanceof Marshall)
+            return ATTACKER_WINS;
         return super.attackRanked(piece);
     }
 }

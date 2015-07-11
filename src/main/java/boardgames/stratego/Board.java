@@ -1,8 +1,8 @@
 package boardgames.stratego;
 
 import boardgames.stratego.piece.Color;
-import boardgames.stratego.piece.ranked.RankedPiece;
 import boardgames.stratego.piece.Piece;
+import boardgames.stratego.piece.ranked.RankedPiece;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,11 +46,7 @@ public class Board {
 
     public Set<Position> getPossibleMovesFrom(Position position) {
         Piece piece = getPieceAt(position);
-        if(piece instanceof RankedPiece) {
-            return ((RankedPiece) piece).getPossibleMovesFrom(position, this);
-        } else {
-            throw new UnsupportedOperationException();
-        }
+        return piece.getPossibleMovesFrom(position, this);
     }
 
     public boolean isValid(Position position) {
@@ -65,15 +61,11 @@ public class Board {
 
     public void movePiece(Position origin, Position goal) {
         Piece piece = removePieceFrom(origin);
-        if (piece instanceof RankedPiece) {
-            Piece enemy = getPieceAt(goal);
-            if (enemy == null) {
-                placePieceAt(goal, piece);
-            } else {
-                fight(goal, (RankedPiece) piece, enemy);
-            }
+        Piece enemy = getPieceAt(goal);
+        if (enemy == null) {
+            placePieceAt(goal, piece);
         } else {
-            throw new UnsupportedOperationException();
+            fight(goal, (RankedPiece) piece, enemy);
         }
     }
 

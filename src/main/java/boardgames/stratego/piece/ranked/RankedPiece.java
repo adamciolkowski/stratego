@@ -7,10 +7,9 @@ import boardgames.stratego.piece.Color;
 import boardgames.stratego.piece.Flag;
 import boardgames.stratego.piece.Piece;
 
-import java.util.List;
 import java.util.Set;
 
-import static java.util.Arrays.asList;
+import static boardgames.stratego.piece.ranked.EngagementOutcome.*;
 import static java.util.stream.Collectors.toSet;
 
 public abstract class RankedPiece extends Piece {
@@ -22,8 +21,9 @@ public abstract class RankedPiece extends Piece {
         this.rank = rank;
     }
 
+    @Override
     public Set<Position> getPossibleMovesFrom(Position position, Board board) {
-        return probableMovesFrom(position).stream()
+        return position.adjacent().stream()
                 .filter(board::isValid)
                 .filter(p -> isEmptyOrOccupiedByEnemy(p, board))
                 .collect(toSet());
@@ -34,28 +34,23 @@ public abstract class RankedPiece extends Piece {
         return piece == null || piece.getColor() != color;
     }
 
-    private List<Position> probableMovesFrom(Position p) {
-        return asList(p.above(), p.below(), p.left(), p.right());
-    }
-
+    @Override
     public EngagementOutcome attack(Piece piece) {
-        if (piece instanceof Flag) {
-            return EngagementOutcome.ATTACKER_WINS;
-        }
-        if (piece instanceof Bomb) {
-            return EngagementOutcome.ATTACKER_LOSES;
-        }
+        if (piece instanceof Flag)
+            return ATTACKER_WINS;
+        if (piece instanceof Bomb)
+            return ATTACKER_LOSES;
         return attackRanked((RankedPiece) piece);
     }
 
     protected EngagementOutcome attackRanked(RankedPiece piece) {
         int result = piece.rank.compareTo(rank);
         if (result > 0) {
-            return EngagementOutcome.ATTACKER_LOSES;
+            return ATTACKER_LOSES;
         } else if (result < 0) {
-            return EngagementOutcome.ATTACKER_WINS;
+            return ATTACKER_WINS;
         } else {
-            return EngagementOutcome.BOTH_DIE;
+            return BOTH_DIE;
         }
     }
 
@@ -70,7 +65,6 @@ public abstract class RankedPiece extends Piece {
         if (!super.equals(o)) return false;
         RankedPiece that = (RankedPiece) o;
         return rank == that.rank;
-
     }
 
     @Override

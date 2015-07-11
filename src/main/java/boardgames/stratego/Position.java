@@ -1,5 +1,9 @@
 package boardgames.stratego;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
+
 public class Position {
 
     private final int x;
@@ -44,6 +48,10 @@ public class Position {
 
     private boolean isWithinBounds(int val, int lower, int upper) {
         return val >= lower && val <= upper;
+    }
+
+    public List<Position> adjacent() {
+        return asList(above(), below(), left(), right());
     }
 
     @Override
