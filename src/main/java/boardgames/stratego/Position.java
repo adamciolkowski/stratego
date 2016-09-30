@@ -1,8 +1,6 @@
 package boardgames.stratego;
 
-import java.util.List;
-
-import static java.util.Arrays.asList;
+import java.util.stream.Stream;
 
 public class Position {
 
@@ -50,8 +48,8 @@ public class Position {
         return val >= lower && val <= upper;
     }
 
-    public List<Position> adjacent() {
-        return asList(above(), below(), left(), right());
+    public Stream<Position> adjacent() {
+        return Stream.of(above(), below(), left(), right());
     }
 
     @Override

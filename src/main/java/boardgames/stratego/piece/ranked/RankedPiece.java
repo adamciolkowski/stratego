@@ -23,7 +23,7 @@ public abstract class RankedPiece extends Piece {
 
     @Override
     public Set<Position> getPossibleMovesFrom(Position position, Board board) {
-        return position.adjacent().stream()
+        return position.adjacent()
                 .filter(board::isValid)
                 .filter(p -> isEmptyOrOccupiedByEnemy(p, board))
                 .collect(toSet());
@@ -44,17 +44,11 @@ public abstract class RankedPiece extends Piece {
 
     protected EngagementOutcome attackRanked(RankedPiece piece) {
         int result = piece.rank.compareTo(rank);
-        if (result > 0) {
+        if (result > 0)
             return ATTACKER_LOSES;
-        } else if (result < 0) {
+        if (result < 0)
             return ATTACKER_WINS;
-        } else {
-            return BOTH_DIE;
-        }
-    }
-
-    public Rank getRank() {
-        return rank;
+        return BOTH_DIE;
     }
 
     @Override

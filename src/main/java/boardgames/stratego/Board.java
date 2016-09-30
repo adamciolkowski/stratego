@@ -19,6 +19,8 @@ public class Board {
 
     private static final Set<Position> illegalPositions = illegalPositions();
 
+    private final int size;
+
     private static Set<Position> illegalPositions() {
         Set<Position> positions = new HashSet<>();
         positions.add(Position.of(3, 5));
@@ -30,6 +32,14 @@ public class Board {
         positions.add(Position.of(8, 5));
         positions.add(Position.of(8, 6));
         return unmodifiableSet(positions);
+    }
+
+    public Board() {
+        this(STANDARD_SIZE);
+    }
+
+    public Board(int size) {
+        this.size = size;
     }
 
     public void placePieceAt(Position position, Piece piece) {
@@ -52,11 +62,11 @@ public class Board {
     public boolean isValid(Position position) {
         if (illegalPositions.contains(position))
             return false;
-        return position.isWithinBounds(1, getSize());
+        return position.isWithinBounds(1, size);
     }
 
     public int getSize() {
-        return STANDARD_SIZE;
+        return size;
     }
 
     public void movePiece(Position origin, Position goal) {
