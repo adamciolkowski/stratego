@@ -7,6 +7,7 @@ import boardgames.stratego.piece.Color;
 
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import static com.codepoetics.protonpack.StreamUtils.takeWhile;
 import static java.util.Arrays.stream;
@@ -22,13 +23,12 @@ public class Scout extends RankedPiece {
     @Override
     public Set<Position> getPossibleMovesFrom(Position position, Board board) {
         return stream(Direction.values())
-                .flatMap(direction -> allMovesInDirection(direction, position, board).stream())
+                .flatMap(direction -> allMovesInDirection(direction, position, board))
                 .collect(toSet());
     }
 
-    private Set<Position> allMovesInDirection(Direction direction, Position origin, Board board) {
-        return takeWhile(iterate(direction.next(origin), direction::next), canMove(board, direction))
-                .collect(toSet());
+    private Stream<Position> allMovesInDirection(Direction direction, Position origin, Board board) {
+        return takeWhile(iterate(direction.next(origin), direction::next), canMove(board, direction));
     }
 
     private Predicate<Position> canMove(Board board, Direction direction) {
