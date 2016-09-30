@@ -34,7 +34,6 @@ public abstract class RankedPiece extends Piece {
         return piece == null || piece.getColor() != color;
     }
 
-    @Override
     public EngagementOutcome attack(Piece piece) {
         if (piece instanceof Flag)
             return ATTACKER_WINS;

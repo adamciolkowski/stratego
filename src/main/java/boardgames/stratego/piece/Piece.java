@@ -2,7 +2,6 @@ package boardgames.stratego.piece;
 
 import boardgames.stratego.Board;
 import boardgames.stratego.Position;
-import boardgames.stratego.piece.ranked.EngagementOutcome;
 
 import java.util.Set;
 
@@ -19,8 +18,6 @@ public abstract class Piece {
     }
 
     public abstract Set<Position> getPossibleMovesFrom(Position position, Board board);
-
-    public abstract EngagementOutcome attack(Piece piece);
 
     @Override
     public boolean equals(Object o) {

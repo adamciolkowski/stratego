@@ -2,7 +2,6 @@ package boardgames.stratego.piece;
 
 import boardgames.stratego.Board;
 import boardgames.stratego.Position;
-import boardgames.stratego.piece.ranked.EngagementOutcome;
 
 import java.util.Set;
 
@@ -19,8 +18,4 @@ public abstract class ImmobilePiece extends Piece {
         return emptySet();
     }
 
-    @Override
-    public EngagementOutcome attack(Piece piece) {
-        throw new UnsupportedOperationException();
-    }
 }
