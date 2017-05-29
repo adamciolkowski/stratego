@@ -2,6 +2,7 @@ package boardgames.stratego;
 
 import boardgames.stratego.piece.Color;
 import boardgames.stratego.piece.Piece;
+import boardgames.stratego.piece.ranked.EngagementOutcome;
 import boardgames.stratego.piece.ranked.RankedPiece;
 
 import java.util.HashMap;
@@ -70,27 +71,26 @@ public class Board {
     }
 
     public void movePiece(Position origin, Position goal) {
-        Piece piece = removePieceFrom(origin);
-        Piece enemy = getPieceAt(goal);
-        if (enemy == null) {
-            placePieceAt(goal, piece);
+        if (isEmpty(goal)) {
+            doMovePiece(origin, goal);
         } else {
-            fight(goal, (RankedPiece) piece, enemy);
+            fight(origin, goal);
         }
     }
 
-    private void fight(Position defenderPosition, RankedPiece attacker, Piece defender) {
-        switch (attacker.attack(defender)) {
-            case ATTACKER_WINS:
-                placePieceAt(defenderPosition, attacker);
-                break;
-            case BOTH_DIE:
-                removePieceFrom(defenderPosition);
-                break;
-        }
+    private void doMovePiece(Position origin, Position goal) {
+        Piece piece = removePieceFrom(origin);
+        placePieceAt(goal, piece);
     }
 
-    private Piece removePieceFrom(Position position) {
+    private void fight(Position attackerPosition, Position defenderPosition) {
+        RankedPiece attacker = (RankedPiece) getPieceAt(attackerPosition);
+        Piece defender = getPieceAt(defenderPosition);
+        EngagementOutcome outcome = attacker.attack(defender);
+        outcome.apply(this, attackerPosition, defenderPosition);
+    }
+
+    public Piece removePieceFrom(Position position) {
         return pieces.remove(position);
     }
 
