@@ -7,7 +7,7 @@ import static boardgames.stratego.piece.ranked.EngagementOutcome.ATTACKER_WINS;
 public class Spy extends RankedPiece {
 
     public Spy(Color color) {
-        super(color, Rank.SPY);
+        super(color, 1);
     }
 
     @Override

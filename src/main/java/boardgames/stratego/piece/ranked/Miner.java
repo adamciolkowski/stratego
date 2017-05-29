@@ -9,7 +9,7 @@ import static boardgames.stratego.piece.ranked.EngagementOutcome.ATTACKER_WINS;
 public class Miner extends RankedPiece {
 
     public Miner(Color color) {
-        super(color, Rank.MINER);
+        super(color, 3);
     }
 
     @Override

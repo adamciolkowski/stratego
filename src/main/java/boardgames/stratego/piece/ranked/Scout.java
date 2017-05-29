@@ -17,7 +17,7 @@ import static java.util.stream.Stream.iterate;
 public class Scout extends RankedPiece {
 
     public Scout(Color color) {
-        super(color, Rank.SCOUT);
+        super(color, 2);
     }
 
     @Override

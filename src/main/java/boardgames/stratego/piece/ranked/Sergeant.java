@@ -5,6 +5,6 @@ import boardgames.stratego.piece.Color;
 public class Sergeant extends RankedPiece {
 
     public Sergeant(Color color) {
-        super(color, Rank.SERGEANT);
+        super(color, 4);
     }
 }

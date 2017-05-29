@@ -5,7 +5,7 @@ import boardgames.stratego.piece.Color;
 public class General extends RankedPiece {
 
     public General(Color color) {
-        super(color, Rank.GENERAL);
+        super(color, 9);
     }
 
 }

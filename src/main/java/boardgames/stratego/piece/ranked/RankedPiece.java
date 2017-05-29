@@ -14,9 +14,9 @@ import static java.util.stream.Collectors.toSet;
 
 public abstract class RankedPiece extends Piece {
 
-    private final Rank rank;
+    private final Integer rank;
 
-    public RankedPiece(Color color, Rank rank) {
+    public RankedPiece(Color color, Integer rank) {
         super(color);
         this.rank = rank;
     }
@@ -57,7 +57,7 @@ public abstract class RankedPiece extends Piece {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         RankedPiece that = (RankedPiece) o;
-        return rank == that.rank;
+        return rank.equals(that.rank);
     }
 
     @Override
